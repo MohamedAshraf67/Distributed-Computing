@@ -1,13 +1,13 @@
 const mongoose = require("mongoose")
 const Document = require("./Document")
-
+//connecting to our cloud service by username and a password
 mongoose.connect("mongodb+srv://Ashraf:mashraf1234@googledocs.daila.mongodb.net/?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
   useCreateIndex: true,
 })
-
+//openning socket connection giving the client a port
 const io = require("socket.io")(process.env.PORT, {
   cors: {
     origin: "*",
@@ -16,7 +16,7 @@ const io = require("socket.io")(process.env.PORT, {
 })
 
 const defaultValue = ""
-
+//starting a connection getting document or creating a new document
 io.on("connection", socket => {
   socket.on("get-document", async documentId => {
     const document = await findOrCreateDocument(documentId)
@@ -32,7 +32,7 @@ io.on("connection", socket => {
     })
   })
 })
-
+//find document if not found create new document with new unique id
 async function findOrCreateDocument(id) {
   if (id == null) return
 
